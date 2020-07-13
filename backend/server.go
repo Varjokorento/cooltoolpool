@@ -36,7 +36,6 @@ func countTheDays(c *gin.Context) {
 }
 
 // binary features
-
 func getBinary(c *gin.Context) {
 	c.HTML(http.StatusOK, "binaryconverter.tmpl", gin.H{
 		"title": "Binary Converter",
