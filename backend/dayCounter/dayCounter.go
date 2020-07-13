@@ -1,4 +1,4 @@
-package components
+package dayCounter
 
 func dayCount(x int, y int) int {
 	total := 0

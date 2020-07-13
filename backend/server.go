@@ -4,7 +4,6 @@ import "github.com/gin-gonic/gin"
 import "net/http"
 import "time"
 
-
 func main() {
 	router := gin.Default()
 	router.LoadHTMLGlob("templates/*")
@@ -30,7 +29,7 @@ func getDayCounter(c *gin.Context) {
 
 func countTheDays(c *gin.Context) {
 	dayOne := c.PostForm("dayOne")
-	t, err := time.Parse("2006-01-02 15:04:05", dayOne)
+	dayThree := daycounter.countTheDays()
 	dayTwo := c.PostForm("dayTwo")
 	c.JSON(http.StatusOK, gin.H{"Day One":t, "Day Two" : dayTwo, "error": err})
 }
