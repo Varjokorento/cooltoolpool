@@ -12,28 +12,40 @@ func main() {
 			"title": "Welcome",
 		})
 	})
-	router.GET("/daycounter", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "daycounter.tmpl", gin.H{
-			"title": "Day Counter",
-		})
+	router.GET("/daycounter", getDayCounter)
+	router.GET("/binary", getBinary)
+	router.POST("/binary", postBinary)
+	router.POST("/daycounter", countTheDays)
+	router.Run(":8080")
+}
+
+// Helpers
+
+func getDayCounter(c *gin.Context) {
+	c.HTML(http.StatusOK, "daycounter.tmpl", gin.H{
+		"title": "Day Counter",
 	})
-	router.GET("/binary", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "binaryconverter.tmpl", gin.H{
-			"title": "Binary Converter",
-			"displayNumber": "",
-		})
+}
+
+func countTheDays(c *gin.Context) {
+	dayOne := c.PostForm("dayOne")
+	dayTwo := c.PostForm("dayTwo")
+	c.JSON(http.StatusOK, gin.H{"Day One":dayOne, "Day Two" : dayTwo})
+}
+
+func getBinary(c *gin.Context) {
+	c.HTML(http.StatusOK, "binaryconverter.tmpl", gin.H{
+		"title": "Binary Converter",
+		"displayNumber": "",
 	})
-	router.POST("/binary", func(c *gin.Context) {
-		displayNumber := c.PostForm("number")
+}
+
+func postBinary(c *gin.Context) {
+	displayNumber := c.PostForm("number")
 		c.HTML(http.StatusOK, "binaryconverter.tmpl", gin.H{
 			"title": "Binary Converter",
 			"displayNumber": displayNumber,
-		})
 	})
-	router.POST("/daycounter", func(c *gin.Context) {
-		dayOne := c.PostForm("dayOne")
-		dayTwo := c.PostForm("dayTwo")
-		c.JSON(http.StatusOK, gin.H{"Day One":dayOne, "Day Two" : dayTwo})
-	})
-	router.Run(":8080")
 }
+
+
