@@ -2,6 +2,7 @@ package main
 
 import "github.com/gin-gonic/gin"
 import "net/http"
+import "time"
 
 
 func main() {
@@ -13,13 +14,13 @@ func main() {
 		})
 	})
 	router.GET("/daycounter", getDayCounter)
+	router.POST("/daycounter", countTheDays)
 	router.GET("/binary", getBinary)
 	router.POST("/binary", postBinary)
-	router.POST("/daycounter", countTheDays)
 	router.Run(":8080")
 }
 
-// Helpers
+// day counters
 
 func getDayCounter(c *gin.Context) {
 	c.HTML(http.StatusOK, "daycounter.tmpl", gin.H{
@@ -29,9 +30,12 @@ func getDayCounter(c *gin.Context) {
 
 func countTheDays(c *gin.Context) {
 	dayOne := c.PostForm("dayOne")
+	t, err := time.Parse("2006-01-02 15:04:05", dayOne)
 	dayTwo := c.PostForm("dayTwo")
-	c.JSON(http.StatusOK, gin.H{"Day One":dayOne, "Day Two" : dayTwo})
+	c.JSON(http.StatusOK, gin.H{"Day One":t, "Day Two" : dayTwo, "error": err})
 }
+
+// binary features
 
 func getBinary(c *gin.Context) {
 	c.HTML(http.StatusOK, "binaryconverter.tmpl", gin.H{
