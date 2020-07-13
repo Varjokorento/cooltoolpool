@@ -1,8 +1,12 @@
 package main
 
-import "github.com/gin-gonic/gin"
-import "net/http"
-import "time"
+import (
+	"backend/binaryConverter"
+	"backend/dayCounter"
+	"github.com/gin-gonic/gin"
+	"net/http"
+	"strconv"
+)
 
 func main() {
 	router := gin.Default()
@@ -29,26 +33,32 @@ func getDayCounter(c *gin.Context) {
 
 func countTheDays(c *gin.Context) {
 	dayOne := c.PostForm("dayOne")
-	dayThree := daycounter.countTheDays()
 	dayTwo := c.PostForm("dayTwo")
-	c.JSON(http.StatusOK, gin.H{"Day One":t, "Day Two" : dayTwo, "error": err})
+	dayOneAsInt, err := strconv.Atoi(dayOne)
+	dayTwoAsInt, err := strconv.Atoi(dayTwo)
+	if err == nil {
+		dayThree := dayCounter.DayCount(dayOneAsInt, dayTwoAsInt)
+		c.JSON(http.StatusOK, gin.H{"Day One": dayOne, "Day Two": dayThree})
+	} else {
+		c.JSON(http.StatusOK, gin.H{"Day One": "error", "Day Two": "error"})
+	}
 }
 
 // binary features
 
 func getBinary(c *gin.Context) {
 	c.HTML(http.StatusOK, "binaryconverter.tmpl", gin.H{
-		"title": "Binary Converter",
+		"title":         "Binary Converter",
 		"displayNumber": "",
 	})
 }
 
 func postBinary(c *gin.Context) {
 	displayNumber := c.PostForm("number")
-		c.HTML(http.StatusOK, "binaryconverter.tmpl", gin.H{
-			"title": "Binary Converter",
-			"displayNumber": displayNumber,
+	displayNumberAsInt, _ := strconv.Atoi(displayNumber)
+	displayNumberAsBinary := binaryConverter.ConvertToBinary(displayNumberAsInt)
+	c.HTML(http.StatusOK, "binaryconverter.tmpl", gin.H{
+		"title":         "Binary Converter",
+		"displayNumber": displayNumberAsBinary,
 	})
 }
-
-

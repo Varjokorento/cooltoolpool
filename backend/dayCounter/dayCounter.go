@@ -1,7 +1,8 @@
 package dayCounter
 
-func dayCount(x int, y int) int {
+// DayCount count the Days
+func DayCount(x int, y int) int {
 	total := 0
-	total = x + y;
+	total = x - y
 	return total
 }
