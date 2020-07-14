@@ -1,5 +1,14 @@
 <html>
-	<h1>
+<head>
+  <style type="text/css" media="screen">
+    <!-- 
+        @import url("/static/stylesheets/main.css");
+    -->
+ </style>
+</head>
+<center>
+<div class="w3-container">
+	<h1 class="title">
 		{{ .title }}
 	</h1>
     <p>Select first day</p>
@@ -7,10 +16,12 @@
     <form method="POST">
         <label>Day One:</label><br />
         <input type="text" name="dayOne"><br />
+         <p>Select second day</p>
         <label>Day Two:</label><br />
         <input type="text" name="dayTwo"><br />
         <input type="submit">
     </form>
     {{ template "backHome.tmpl"}}
-
+    </div>
+</center>
 </html>
