@@ -3,6 +3,7 @@ package main
 import (
 	"backend/binaryConverter"
 	"backend/dayCounter"
+	"backend/structs"
 	"encoding/json"
 	"html/template"
 	"io/ioutil"
@@ -14,18 +15,13 @@ import (
 	"github.com/russross/blackfriday"
 )
 
-type Post struct {
-	Title   string
-	Content template.HTML
-}
-
 func main() {
 	router := gin.Default()
 	router.Static("/static", "./static")
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.tmpl", gin.H{
-			"title": "Welcome",
+			"title": "Cool Tool Pool",
 		})
 	})
 	router.GET("/about", getAbout)
@@ -42,7 +38,7 @@ func getAbout(c *gin.Context) {
 	mdfile, _ := ioutil.ReadFile("./markdown/" + "about.md")
 	const postName = "Placeholder"
 	postHTML := template.HTML(blackfriday.MarkdownCommon([]byte(mdfile)))
-	post := Post{Title: postName, Content: postHTML}
+	post := structs.Post{Title: postName, Content: postHTML}
 	c.HTML(http.StatusOK, "post.tmpl.html", gin.H{
 		"Title":   post.Title,
 		"Content": post.Content,
