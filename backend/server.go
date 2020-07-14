@@ -4,13 +4,14 @@ import (
 	"backend/binaryConverter"
 	"backend/dayCounter"
 	"encoding/json"
-	"github.com/davecgh/go-spew/spew"
-	"github.com/gin-gonic/gin"
-	"github.com/russross/blackfriday"
 	"html/template"
 	"io/ioutil"
 	"net/http"
 	"strconv"
+
+	"github.com/davecgh/go-spew/spew"
+	"github.com/gin-gonic/gin"
+	"github.com/russross/blackfriday"
 )
 
 type Post struct {
@@ -20,7 +21,7 @@ type Post struct {
 
 func main() {
 	router := gin.Default()
-	router.Static("/css", "../templates/css")
+	router.Static("/static", "./static")
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.tmpl", gin.H{
