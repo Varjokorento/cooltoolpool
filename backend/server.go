@@ -5,14 +5,13 @@ import (
 	"backend/dayCounter"
 	"backend/structs"
 	"encoding/json"
+	"github.com/davecgh/go-spew/spew"
+	"github.com/gin-gonic/gin"
+	"github.com/russross/blackfriday"
 	"html/template"
 	"io/ioutil"
 	"net/http"
 	"strconv"
-
-	"github.com/davecgh/go-spew/spew"
-	"github.com/gin-gonic/gin"
-	"github.com/russross/blackfriday"
 )
 
 func main() {

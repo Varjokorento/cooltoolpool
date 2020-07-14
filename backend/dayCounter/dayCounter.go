@@ -13,6 +13,10 @@ func DayCount(dayOne string, dayTwo string) *structs.DateStar {
 	var dayAsString = firstArray[0]
 	var monthAsString = firstArray[1]
 	var yearAsString = firstArray[2]
+	// TODO make the conversion
+	/*var secondArray []string
+	secondArray = splitDateIntoParts(dayTwo)*/
+
 	var day int
 	var month int
 	var year int
