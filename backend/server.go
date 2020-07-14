@@ -6,23 +6,46 @@ import (
 	"encoding/json"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/gin-gonic/gin"
+	"github.com/russross/blackfriday"
+	"html/template"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 )
 
+type Post struct {
+	Title   string
+	Content template.HTML
+}
+
 func main() {
 	router := gin.Default()
+	router.Static("/css", "../templates/css")
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.tmpl", gin.H{
 			"title": "Welcome",
 		})
 	})
+	router.GET("/about", getAbout)
 	router.GET("/daycounter", getDayCounter)
 	router.POST("/daycounter", countTheDays)
 	router.GET("/binary", getBinary)
 	router.POST("/binary", postBinary)
 	router.Run(":8080")
+}
+
+// markdown
+
+func getAbout(c *gin.Context) {
+	mdfile, _ := ioutil.ReadFile("./markdown/" + "about.md")
+	const postName = "Placeholder"
+	postHTML := template.HTML(blackfriday.MarkdownCommon([]byte(mdfile)))
+	post := Post{Title: postName, Content: postHTML}
+	c.HTML(http.StatusOK, "post.tmpl.html", gin.H{
+		"Title":   post.Title,
+		"Content": post.Content,
+	})
 }
 
 // day counters
