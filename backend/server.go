@@ -3,6 +3,8 @@ package main
 import (
 	"backend/binaryConverter"
 	"backend/dayCounter"
+	"encoding/json"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -34,14 +36,11 @@ func getDayCounter(c *gin.Context) {
 func countTheDays(c *gin.Context) {
 	dayOne := c.PostForm("dayOne")
 	dayTwo := c.PostForm("dayTwo")
-	dayOneAsInt, err := strconv.Atoi(dayOne)
-	dayTwoAsInt, err := strconv.Atoi(dayTwo)
-	if err == nil {
-		dayThree := dayCounter.DayCount(dayOneAsInt, dayTwoAsInt)
-		c.JSON(http.StatusOK, gin.H{"Day One": dayOne, "Day Two": dayThree})
-	} else {
-		c.JSON(http.StatusOK, gin.H{"Day One": "error", "Day Two": "error"})
-	}
+	dayDifference := dayCounter.DayCount(dayOne, dayTwo)
+	spew.Dump(dayDifference)
+	var dateJson, _ = json.Marshal(dayDifference)
+	spew.Dump(dateJson)
+	c.JSON(http.StatusOK, gin.H{"Day Difference": dateJson})
 }
 
 // binary features
