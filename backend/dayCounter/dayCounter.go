@@ -9,7 +9,7 @@ import (
 // DayCount count the Days
 func DayCount(dayOne string, dayTwo string) *structs.DateStar {
 	var firstArray []string
-	firstArray = strings.Split(dayOne, ".")
+	firstArray = splitDateIntoParts(dayOne)
 	var dayAsString = firstArray[0]
 	var monthAsString = firstArray[1]
 	var yearAsString = firstArray[2]
@@ -20,4 +20,9 @@ func DayCount(dayOne string, dayTwo string) *structs.DateStar {
 	month, _ = strconv.Atoi(monthAsString)
 	year, _ = strconv.Atoi(yearAsString)
 	return structs.NewDate(day, month, year)
+}
+
+func splitDateIntoParts(day string) []string {
+	var array []string = strings.Split(day, ".")
+	return array
 }
