@@ -1,0 +1,26 @@
+<html>
+<head>
+  <style type="text/css" media="screen">
+    <!-- 
+        @import url("/static/stylesheets/main.css");
+    -->
+ </style>
+</head>
+<center>
+<div class="w3-container">
+	<h1 class="title">
+		{{ .title }}
+	</h1>
+    <p>Post grades</p>
+    <p>{{.error}}</p>
+    <form method="POST">
+        <label>Course Credits:</label><br />
+        <input type="text" name="credits"><br />
+        <label>Your grade:</label><br />
+        <input type="text" name="grades"><br />
+        <input type="submit">
+    </form>
+    {{ template "backHome.tmpl"}}
+    </div>
+</center>
+</html>

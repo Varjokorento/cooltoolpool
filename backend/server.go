@@ -3,6 +3,7 @@ package main
 import (
 	"backend/binaryConverter"
 	"backend/dayCounter"
+	"backend/gpaCounter"
 	"backend/structs"
 	"encoding/json"
 	"github.com/davecgh/go-spew/spew"
@@ -25,10 +26,32 @@ func main() {
 	})
 	router.GET("/about", getAbout)
 	router.GET("/daycounter", getDayCounter)
+	router.GET("/gpacounter", getGpaCounter)
+	router.POST("/gpacounter", postGPACounter)
 	router.POST("/daycounter", countTheDays)
 	router.GET("/binary", getBinary)
 	router.POST("/binary", postBinary)
 	router.Run(":8080")
+}
+
+// gpaCounter
+func getGpaCounter(c *gin.Context) {
+	c.HTML(http.StatusOK, "gpaCounter.tmpl", gin.H{
+		"title": "GPA Counter",
+	})
+}
+
+func postGPACounter(c *gin.Context) {
+	totalCredits := c.PostForm("credits")
+	sumOfGrade := c.PostForm("grades")
+	totalCreditsInt, _ := strconv.Atoi(totalCredits)
+	sumOfGradeInt, _ := strconv.Atoi(sumOfGrade)
+	gpa := gpaCounter.GetGpa(totalCreditsInt, sumOfGradeInt)
+	spew.Dump(gpa)
+	gpaJSON, _ := json.Marshal(gpa)
+	spew.Dump(gpaJSON)
+	c.Data(http.StatusOK, "application/json", gpaJSON)
+
 }
 
 // markdown
@@ -59,7 +82,7 @@ func countTheDays(c *gin.Context) {
 	spew.Dump(dayDifference)
 	var dateJson, _ = json.Marshal(dayDifference)
 	spew.Dump(dateJson)
-	c.JSON(http.StatusOK, gin.H{"Day Difference": dateJson})
+	c.Data(http.StatusOK, "application/json", dateJson)
 }
 
 // binary features
